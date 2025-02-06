@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
-import Loading from "../Loading/Loading";
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 
 export default function Allorders() {
   const [userOrders, setuserOrders] = useState([]);
+  const navigate = useNavigate(); // Initialize useNavigate
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
@@ -32,20 +33,30 @@ export default function Allorders() {
     }
   }
 
+  const handleGoHome = () => {
+    navigate('/home'); // Navigate to the home page
+  };
+
   return (
     <div className="container my-5">
       {userOrders.length === 0 ? (
-        <div className="text-center bg-light vw-100 vh-100 d-flex flex-column justify-content-center align-items-center">
-          <h2 className="text-secondary mb-4" style={{ fontSize: "1.5rem" }}>
-            It seems you don’t have any orders yet.
-          </h2>
-          <Loading />
+        <div className="flex items-center justify-center mt-8">
+          <div className="text-center">
+            <i className="fa-solid fa-cubes fa-4x"></i>
+            <h2 className="mt-4">
+              It seems you don’t have any orders yet.
+            </h2>
+            <button
+              onClick={handleGoHome}
+              className="mt-6 bg-main text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-opacity-80 transition duration-200"
+            >
+              Go to Home
+            </button>
+          </div>
         </div>
       ) : (
         <>
-          <h2 className="text-3xl font-bold text-center mt-8">
-            Your Orders
-          </h2>
+          <h2 className="text-3xl font-bold text-center mt-8">Your Orders</h2>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
             <div className="space-y-6">
               {userOrders.map((order, idx) => (

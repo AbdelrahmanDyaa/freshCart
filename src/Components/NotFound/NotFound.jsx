@@ -1,7 +1,13 @@
-
+import { useNavigate } from "react-router-dom"; // Import useNavigate
 import NotFoundSVG from '../../assets/images/error.svg'; // Correct path to your SVG file
 
 export default function NotFound() {
+  const navigate = useNavigate(); // Initialize useNavigate
+
+  const handleGoHome = () => {
+    navigate('/home'); // Navigate to the home page
+  };
+
   return (
     <div className="flex items-center justify-center h-screen flex-col bg-white">
       {/* SVG Image */}
@@ -16,7 +22,14 @@ export default function NotFound() {
       <p className="text-gray-600 mt-2 text-center">
         Oops! The page you're looking for doesn't exist.
       </p>
+
+      {/* Button */}
+      <button
+        onClick={handleGoHome}
+        className="mt-6 bg-main text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-opacity-80 transition duration-200"
+      >
+        Go to Home
+      </button>
     </div>
   );
 }
-

@@ -1,3 +1,5 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/prop-types */
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -76,7 +78,7 @@ export default function WishlistContextProvider({ children }) {
     if (localStorage.getItem("userToken")) {
       getWishlistProducts(); 
     }
-  }, [localStorage.getItem("userToken")]);
+  }, []);
 
   return (
     <WishlistContext.Provider

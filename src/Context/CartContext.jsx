@@ -1,3 +1,6 @@
+/* eslint-disable react-refresh/only-export-components */
+/* eslint-disable react/prop-types */
+
 import { createContext, useState, useEffect } from "react";
 import axios from "axios";
 import toast from "react-hot-toast";
@@ -86,11 +89,11 @@ export default function CartContextProvider({ children }) {
   useEffect(() => {
     const token = localStorage.getItem("userToken");
     if (token) {
-      getProductToCart(); // Fetch cart for the logged-in user
+      getProductToCart(); 
     } else {
-      clearCart(); // Clear cart if no user is logged in
+      clearCart(); 
     }
-  }, [localStorage.getItem("userToken")]); // Trigger when the token changes
+  }, []); 
 
   return (
     <CartContext.Provider
