@@ -1,63 +1,66 @@
-import  { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
-import ProductCard from '../ProductCard/ProductCard';
-import Loading from '../Loading/Loading';
-import { Helmet } from 'react-helmet';
 
-const CategoryDetails = () => {
+
+
+export default function CategoryDetails() {
   const { id } = useParams();
   const [category, setCategory] = useState(null);
-  const [products, setProducts] = useState([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [subcategories, setSubcategories] = useState([]);
+
 
   useEffect(() => {
-    if (!id) {
-      console.error('Category ID is undefined');
-      return;
-    }
-
-    const fetchCategoryDetails = async () => {
+    async function fetchCategoryData() {
       try {
-        // Fetch the category details
+        // Fetch category details
         const categoryResponse = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories/${id}`);
         setCategory(categoryResponse.data.data);
 
-        // Fetch products in this category
-        const productsResponse = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories/${id}/subcategories`);
-        setProducts(productsResponse.data.data);
-        setIsLoading(false);
+        // Fetch subcategories of this category
+        const subcategoriesResponse = await axios.get(`https://ecommerce.routemisr.com/api/v1/categories/${id}/subcategories`);
+        setSubcategories(subcategoriesResponse.data.data);
+
       } catch (error) {
-        console.error('Error fetching category details or products', error);
-        setIsLoading(false);
+        console.error('Error fetching category details or subcategories', error);
       }
     };
 
-    fetchCategoryDetails();
+    fetchCategoryData();
   }, [id]);
 
-  if (isLoading) {
-    return <Loading />;
-  }
-
   if (!category) {
-    return <div>No category found.</div>;
+    return <div className='mt-8 text-center'>No category found.</div>;
   }
 
-  return (
-    <div className="container my-5">
-      <Helmet>
-        <title>{category?.name ? `${category.name} Products` : "Loading..."}</title>
-      </Helmet>
-      <h2 className="text-3xl font-bold text-center mt-8 mb-6">{category?.name} Products</h2>
+  return <div className="container mx-auto px-4 py-8">
+    {category ? (
+      <div className="text-center">
+        <h2 className="text-4xl font-bold text-gray-800">{category.name}</h2>
+        <img
+          src={category.image}
+          alt={category.name}
+          className="w-56 h-56 object-cover mx-auto rounded-lg mt-4 shadow-md"
+        />
 
-      <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
-        {products.map((product) => (
-          <ProductCard key={product.id} product={product} />
-        ))}
+        <h3 className="text-2xl font-semibold mt-8 text-gray-700">Subcategories</h3>
+        <div className="mt-6 grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-6">
+          {subcategories.map((sub) => (
+            <div
+              key={sub._id}
+              className="bg-white p-4 rounded-lg shadow-md text-center hover:shadow-lg transition duration-200 ease-in-out"
+            >
+              <h4 className="text-lg font-medium text-gray-800">{sub.name}</h4>
+            </div>
+          ))}
+        </div>
       </div>
-    </div>
-  );
+    ) : (
+      <p className="text-center text-gray-500">Loading data...</p>
+    )}
+  </div>
+
+
 };
 
-export default CategoryDetails;
+
