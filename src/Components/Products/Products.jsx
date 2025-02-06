@@ -2,31 +2,23 @@ import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import Loading from '../Loading/Loading';
 import { CartContext } from '../../Context/CartContext';
-import { WishlistContext } from '../../Context/wishlistContext'; // Import WishlistContext
+import { WishlistContext } from '../../Context/wishlistContext';
 import { useQuery } from '@tanstack/react-query';
 import axios from 'axios';
 
-
 export default function Products() {
-
   const { addProductToCart } = useContext(CartContext);
-  const { wishlist, addProductToWishlist, removeProductFromWishlist } = useContext(WishlistContext);
+  const { wishlist, addProductToWishlist, removeProductFromWishlist } =
+    useContext(WishlistContext);
 
   function getProducts() {
     return axios.get('https://ecommerce.routemisr.com/api/v1/products');
   }
 
-  let {data,isLoading, isFetching} =useQuery({
+  const { data, isLoading } = useQuery({
     queryKey: ['products'],
     queryFn: getProducts,
-   
-  }
-  )
-  console.log(data?.data.data);
-  console.log(isLoading);
-  console.log(isFetching);
-
-
+  });
 
   const wishlistArray = Array.isArray(wishlist) ? wishlist : [];
 
@@ -36,18 +28,18 @@ export default function Products() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="flex flex-wrap py-8 gap-6 justify-center">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 py-8 px-4">
           {data?.data.data.map((product) => (
             <div
               key={product.id}
-              className="w-[220px] bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
             >
               <Link to={`/productdetails/${product.id}`}>
-                <div className="h-[220px] overflow-hidden rounded-t-lg">
+                <div className="overflow-hidden rounded-t-lg aspect-[3/4]">
                   <img
                     src={product.imageCover}
                     alt={product.title}
-                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                    className="w-full h-full object-cover"
                   />
                 </div>
                 <div className="p-4">
@@ -67,9 +59,7 @@ export default function Products() {
                 </div>
               </Link>
 
-              {/* Button Container */}
-              <div className="flex justify-between items-center mt-2 px-4">
-                {/* Add to Cart Button */}
+              <div className="flex justify-between items-center mt-2 px-4 pb-4">
                 <button
                   onClick={() => addProductToCart(product.id)}
                   className="bg-main text-white text-sm py-1.5 px-4 rounded-lg"
@@ -77,7 +67,6 @@ export default function Products() {
                   <i className="fas fa-cart-plus"></i> Add to Cart
                 </button>
 
-                {/* Wishlist Icon Button */}
                 {wishlistArray.includes(product.id) ? (
                   <button
                     onClick={() => removeProductFromWishlist(product.id)}

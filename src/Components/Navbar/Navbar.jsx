@@ -107,64 +107,73 @@ export default function Navbar() {
           </div>
         </nav>
 
-        {/* Mobile Menu */}
-        {isOpen && (
-          <div className="lg:hidden fixed inset-0 z-50 bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
-            <div className="flex items-center justify-between">
-              <NavLink to={'home'} className="-m-1.5 p-1.5">
-                <span className="sr-only">Your Company</span>
-                <img src={logo} width={120} alt="FreshCart Logo" />
-              </NavLink>
-              <button
-                onClick={() => setIsOpen(false)}
-                type="button"
-                className="-m-2.5 bg-transparent hover:bg-gray-100 rounded-md p-2.5 text-gray-700"
-              >
-                <span className="sr-only">Close menu</span>
-                <svg
-                  className="size-6"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
-                  aria-hidden="true"
-                >
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                </svg>
-              </button>
-            </div>
+       {/* Mobile Menu */}
+{isOpen && (
+  <div className="lg:hidden fixed inset-0 z-50 bg-white px-6 py-6 sm:max-w-sm sm:ring-1 sm:ring-gray-900/10">
+    <div className="flex items-center justify-between">
+      <NavLink to={'home'} className="-m-1.5 p-1.5">
+        <span className="sr-only">Your Company</span>
+        <img src={logo} width={120} alt="FreshCart Logo" />
+      </NavLink>
+      <button
+        onClick={() => setIsOpen(false)}
+        type="button"
+        className="-m-2.5 bg-transparent hover:bg-gray-100 rounded-md p-2.5 text-gray-700"
+      >
+        <span className="sr-only">Close menu</span>
+        <svg
+          className="size-6"
+          fill="none"
+          viewBox="0 0 24 24"
+          strokeWidth="1.5"
+          stroke="currentColor"
+          aria-hidden="true"
+        >
+          <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+        </svg>
+      </button>
+    </div>
 
-            {/* Mobile Navigation */}
-            <div className="mt-6">
-              <div className="space-y-2 py-6">
-                <NavLink to={'home'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Home</NavLink>
-                <NavLink to={'cart'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Cart</NavLink>
-                <NavLink to={'wishlist'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Wishlist</NavLink>
-                <NavLink to={'brands'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Brands</NavLink>
-                <NavLink to={'categories'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Categories</NavLink>
-                <NavLink to={'products'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Products</NavLink>
-                <NavLink to={'profile'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Profile</NavLink>
-              </div>
-
-              {/* Conditionally Render Register/Login or Logout */}
-              <div className="py-6">
-                {userToken ? (
-                  <button
-                    onClick={logOut}
-                    className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg w-full text-left"
-                  >
-                    Log Out
-                  </button>
-                ) : (
-                  <>
-                    <NavLink to={'/'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Register</NavLink>
-                    <NavLink to={'login'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Login</NavLink>
-                  </>
-                )}
-              </div>
-            </div>
-          </div>
+    {/* Mobile Navigation */}
+    <div className="mt-6">
+      <div className="space-y-2 py-6">
+        {userToken ? (
+          <>
+            <NavLink to={'home'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Home</NavLink>
+            <NavLink to={'cart'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Cart</NavLink>
+            <NavLink to={'wishlist'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Wishlist</NavLink>
+            <NavLink to={'brands'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Brands</NavLink>
+            <NavLink to={'categories'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Categories</NavLink>
+            <NavLink to={'products'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Products</NavLink>
+            <NavLink to={'profile'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Profile</NavLink>
+          </>
+        ) : (
+          <>
+            
+          </>
         )}
+      </div>
+
+      {/* Conditionally Render Logout or Login/Register */}
+      <div className="py-6">
+        {userToken ? (
+          <button
+            onClick={logOut}
+            className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg w-full text-left"
+          >
+            Log Out
+          </button>
+        ) : (
+          <>
+            <NavLink to={'login'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Login</NavLink>
+            <NavLink to={'/'} className="block text-gray-900 hover:bg-gray-50 p-2 rounded-lg">Register</NavLink>
+          </>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
       </header>
     </>
   );
