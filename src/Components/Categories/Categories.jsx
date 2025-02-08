@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import { Helmet } from 'react-helmet';
 import Loading from '../Loading/Loading'; 
 
 const Categories = () => {
@@ -30,10 +29,7 @@ const Categories = () => {
 
   return (
     <div className="container mx-auto py-10">
-      <Helmet>
-        <title>Categories</title>
-      </Helmet>
-
+     
       <h2 className="text-4xl font-bold text-center text-gray-800 mb-8">All Categories</h2>
 
       <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8">

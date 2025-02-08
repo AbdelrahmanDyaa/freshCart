@@ -24,7 +24,15 @@ export default function Brands() {
   }
 
   if (error) {
-    return <div className="text-center text-red-500 text-xl mt-10">Error loading brands</div>;
+    return <div className="flex items-center justify-center mt-8">
+    <div className="text-center">
+      <i className="fa-solid fa-copyright fa-4x"></i>
+      <h2 className="mt-4">
+       No Brands found.
+      </h2>
+     
+    </div>
+  </div>
   }
 
   return (

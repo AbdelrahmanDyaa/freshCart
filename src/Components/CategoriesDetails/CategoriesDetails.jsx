@@ -30,7 +30,15 @@ export default function CategoryDetails() {
   }, [id]);
 
   if (!category) {
-    return <div className='mt-8 text-center'>No category found.</div>;
+    return <div className="flex items-center justify-center mt-8">
+    <div className="text-center">
+      <i className="fa-solid fa-tables fa-4x"></i>
+      <h2 className="mt-4">
+       No category found.
+      </h2>
+     
+    </div>
+  </div>
   }
 
   return <div className="container mx-auto px-4 py-8">

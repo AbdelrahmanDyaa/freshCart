@@ -29,7 +29,15 @@ export default function BrandDetails() {
   }, [id]);
 
   if (loading) return <Loading />;
-  if (!brand) return <div className="text-center text-red-500 text-xl mt-10">Brand not found</div>;
+  if (!brand) return <div className="flex items-center justify-center mt-8">
+  <div className="text-center">
+    <i className="fa-solid fa-copyright fa-4x"></i>
+    <h2 className="mt-4">
+     No Brand found.
+    </h2>
+   
+  </div>
+</div>;
 
   return (
     <div className="container mx-auto py-10 px-6">
