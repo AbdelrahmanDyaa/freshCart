@@ -14,7 +14,7 @@ export default function Checkout() {
     try {
       setLoading(true);
       const { data } = await axios.post(
-        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=https://abdelrahmandyaa.github.io/freshcart/#`,
+        `https://ecommerce.routemisr.com/api/v1/orders/checkout-session/${cart.cartId}?url=https://abdelrahmandyaa.github.io/freshcart/#/`,
         { shippingAddress },
         {
           headers: {
