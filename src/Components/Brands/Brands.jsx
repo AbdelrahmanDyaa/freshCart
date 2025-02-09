@@ -53,7 +53,7 @@ export default function Brands() {
                 alt={brand.name} 
                 className="w-24 h-24 object-contain rounded-full border-2 border-gray-300 shadow-sm"
               />
-              <h3 className="text-lg font-semibold text-gray-700 mt-4 group-hover:text-blue-600">{brand.name}</h3>
+              <h3 className="text-lg font-semibold text-gray-700 mt-4 group-hover:text-green-600">{brand.name}</h3>
             </div>
           </Link>
         ))}
