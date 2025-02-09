@@ -32,7 +32,7 @@ export default function CategoryDetails() {
   if (!category) {
     return <div className="flex items-center justify-center mt-8">
     <div className="text-center">
-      <i className="fa-solid fa-tables fa-4x"></i>
+      <i className="fa-solid fa-table fa-4x"></i>
       <h2 className="mt-4">
        No category found.
       </h2>
