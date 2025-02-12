@@ -1,25 +1,28 @@
-import { useContext } from 'react';
-import axios from 'axios';
-import { Link } from 'react-router-dom';
-import Loading from '../Loading/Loading';
-import { CartContext } from '../../Context/CartContext';
-import { WishlistContext } from '../../Context/wishlistContext';
-import { useQuery } from '@tanstack/react-query';
+import { useContext } from "react";
+import axios from "axios";
+import { Link } from "react-router-dom";
+import Loading from "../Loading/Loading";
+import { CartContext } from "../../Context/CartContext";
+import { WishlistContext } from "../../Context/wishlistContext";
+import { useQuery } from "@tanstack/react-query";
 
 export default function RecentProducts() {
   const { addProductToCart } = useContext(CartContext);
-  const { wishlist, addProductToWishlist, removeProductFromWishlist } = useContext(WishlistContext);
+  const { wishlist, addProductToWishlist, removeProductFromWishlist } =
+    useContext(WishlistContext);
 
   function getProducts() {
-    return axios.get('https://ecommerce.routemisr.com/api/v1/products');
+    return axios.get("https://ecommerce.routemisr.com/api/v1/products");
   }
 
-  const { data, isLoading } = useQuery({ queryKey: ['products'], queryFn: getProducts });
+  const { data, isLoading } = useQuery({ queryKey: ["products"], queryFn: getProducts });
   const wishlistArray = Array.isArray(wishlist) ? wishlist.map((item) => item.id) : [];
 
   return (
-    <section className="container mx-auto px-4 py-10">
-      <h2 className="text-4xl font-extrabold text-center text-main mb-10">Recent Products</h2>
+    <section className="container mx-auto px-4 py-12">
+      <h2 className="text-4xl font-extrabold text-center text-main mb-10">
+        Recent Products
+      </h2>
       {isLoading ? (
         <Loading />
       ) : (
@@ -27,7 +30,7 @@ export default function RecentProducts() {
           {data?.data.data.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg shadow-md hover:shadow-xl transition-shadow duration-300 overflow-hidden"
+              className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden"
             >
               <Link to={`/productdetails/${product.id}`} className="block">
                 <div className="relative overflow-hidden rounded-t-lg aspect-[3/4]">
@@ -38,16 +41,16 @@ export default function RecentProducts() {
                   />
                 </div>
                 <div className="p-5">
-                  <h3 className="text-main font-medium text-sm uppercase tracking-wide mb-1">
+                  <h3 className="text-green-600 font-medium text-xs uppercase tracking-wide mb-1">
                     {product.category.name}
                   </h3>
                   <h2 className="text-lg font-semibold text-gray-900 truncate mb-2">
-                    {product.title.split(' ', 2).join(' ')}
+                    {product.title.length > 40 ? product.title.substring(0, 40) + "..." : product.title}
                   </h2>
-                  <div className="flex justify-between items-center text-gray-700 text-sm">
-                    <span className="font-semibold">{product.price} EGP</span>
-                    <span className="flex items-center">
-                      <i className="fas fa-star text-yellow-400 mr-1"></i>
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold text-gray-900">{product.price} EGP</span>
+                    <span className="flex items-center text-sm text-yellow-500">
+                      <i className="fas fa-star mr-1"></i>
                       {product.ratingsAverage}
                     </span>
                   </div>
@@ -56,7 +59,7 @@ export default function RecentProducts() {
               <div className="flex justify-between items-center px-5 pb-5">
                 <button
                   onClick={() => addProductToCart(product.id)}
-                  className="flex items-center bg-main text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-opacity-90 transition-all"
+                  className="flex items-center bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-green-700 transition-all"
                 >
                   <i className="fas fa-cart-plus mr-2"></i> Add to Cart
                 </button>

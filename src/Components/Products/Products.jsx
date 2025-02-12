@@ -28,56 +28,54 @@ export default function Products() {
       {isLoading ? (
         <Loading />
       ) : (
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-6 py-8 px-4">
+        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-8">
           {data?.data.data.map((product) => (
             <div
               key={product.id}
-              className="bg-white rounded-lg shadow-md hover:shadow-lg transition-shadow duration-300"
+              className="bg-white border border-gray-200 rounded-lg shadow-sm hover:shadow-lg transition-shadow duration-300 overflow-hidden"
             >
-              <Link to={`/productdetails/${product.id}`}>
-                <div className="overflow-hidden rounded-t-lg aspect-[3/4]">
+              <Link to={`/productdetails/${product.id}`} className="block">
+                <div className="relative overflow-hidden rounded-t-lg aspect-[3/4]">
                   <img
                     src={product.imageCover}
                     alt={product.title}
-                    className="w-full h-full object-cover"
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-105"
                   />
                 </div>
-                <div className="p-4">
-                  <h3 className="text-main font-medium text-sm mb-1">
+                <div className="p-5">
+                  <h3 className="text-green-600 font-medium text-xs uppercase tracking-wide mb-1">
                     {product.category.name}
                   </h3>
-                  <h2 className="text-lg font-semibold mb-2">
-                    {product.title.split(' ', 2).join(' ')}
+                  <h2 className="text-lg font-semibold text-gray-900 truncate mb-2">
+                    {product.title.length > 40 ? product.title.substring(0, 40) + "..." : product.title}
                   </h2>
-                  <div className="flex justify-between items-center text-sm text-gray-700">
-                    <span>{product.price} EGP</span>
-                    <span>
-                      <i className="fas fa-star text-yellow-400"></i>{' '}
+                  <div className="flex justify-between items-center">
+                    <span className="text-lg font-bold text-gray-900">{product.price} EGP</span>
+                    <span className="flex items-center text-sm text-yellow-500">
+                      <i className="fas fa-star mr-1"></i>
                       {product.ratingsAverage}
                     </span>
                   </div>
                 </div>
               </Link>
-
-              <div className="flex justify-between items-center mt-2 px-4 pb-4">
+              <div className="flex justify-between items-center px-5 pb-5">
                 <button
                   onClick={() => addProductToCart(product.id)}
-                  className="bg-main text-white text-sm py-1.5 px-4 rounded-lg"
+                  className="flex items-center bg-green-600 text-white text-sm font-medium py-2 px-4 rounded-lg hover:bg-green-700 transition-all"
                 >
-                  <i className="fas fa-cart-plus"></i> Add to Cart
+                  <i className="fas fa-cart-plus mr-2"></i> Add to Cart
                 </button>
-
                 {wishlistArray.includes(product.id) ? (
                   <button
                     onClick={() => removeProductFromWishlist(product.id)}
-                    className="bg-red-500 text-white text-sm p-2 rounded-full ml-2"
+                    className="bg-red-500 text-white p-2 rounded-full transition-all hover:bg-red-600"
                   >
-                    <i className="fas fa-heart-broken"></i>
+                    <i className="fas fa-heart"></i>
                   </button>
                 ) : (
                   <button
                     onClick={() => addProductToWishlist(product.id)}
-                    className="bg-gray-300 text-gray-800 text-sm p-2 rounded-full ml-2 hover:bg-red-500 hover:text-white"
+                    className="bg-gray-300 text-gray-800 p-2 rounded-full transition-all hover:bg-red-500 hover:text-white"
                   >
                     <i className="fas fa-heart"></i>
                   </button>
