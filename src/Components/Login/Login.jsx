@@ -42,7 +42,7 @@ export default function Login() {
   return (
     <div className="min-h-screen flex items-center justify-center bg-gray-50">
       <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-gray-700">Login</h2>
+        <h2 className="text-2xl font-bold text-center text-main">Login</h2>
 
         {apiError && <div className="text-red-500 text-sm">{apiError}</div>}
 

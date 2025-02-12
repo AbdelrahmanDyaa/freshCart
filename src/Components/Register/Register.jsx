@@ -10,7 +10,7 @@ export default function Register() {
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
   const navigate = useNavigate();
-  const { setUserToken } = useContext(UserContext);
+  const { setUserToken, setUserName } = useContext(UserContext);
 
   async function register(values) {
     try {
@@ -18,7 +18,9 @@ export default function Register() {
       const { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup', values);
       setLoading(false);
       localStorage.setItem('userToken', data.token);
+      localStorage.setItem('userName', data.user.name); // Store the user's name
       setUserToken(data.token);
+      setUserName(data.user.name); // Set the user's name in context
       navigate('/home');
     } catch (err) {
       setApiError(err.response.data.message);
@@ -59,7 +61,7 @@ export default function Register() {
   return (
     <div className="flex justify-center items-center h-screen bg-gray-100">
       <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-main-700 mb-6">Register</h2>
+        <h2 className="text-2xl font-bold text-center text-main mb-6">Register</h2>
         {apiError && <div className="text-red-500 text-sm mb-4">{apiError}</div>}
         <form onSubmit={formik.handleSubmit}>
           {/* Name Field */}

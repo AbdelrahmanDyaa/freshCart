@@ -19,7 +19,7 @@ export default function RecentProducts() {
 
   return (
     <section className="container mx-auto px-4 py-10">
-      <h2 className="text-4xl font-extrabold text-center text-gray-800 mb-10">Recent Products</h2>
+      <h2 className="text-4xl font-extrabold text-center text-main mb-10">Recent Products</h2>
       {isLoading ? (
         <Loading />
       ) : (

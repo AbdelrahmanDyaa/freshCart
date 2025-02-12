@@ -45,7 +45,7 @@ export default function ProductDetails() {
 
   return (
     <>
-      <h2 className="text-3xl font-bold text-center my-8">Product Details</h2>
+      <h2 className="text-3xl font-bold text-center my-8 text-main">Product Details</h2>
 
       {loading ? <Loading /> : (
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 p-4 md:p-8 items-center">

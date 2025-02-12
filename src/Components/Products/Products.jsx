@@ -24,7 +24,7 @@ export default function Products() {
 
   return (
     <>
-      <h2 className="text-3xl font-bold text-center mt-8 mb-6">Products</h2>
+      <h2 className="text-3xl font-bold text-center mt-8 mb-6 text-main">Products</h2>
       {isLoading ? (
         <Loading />
       ) : (

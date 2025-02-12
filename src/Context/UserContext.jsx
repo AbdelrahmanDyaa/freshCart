@@ -1,27 +1,30 @@
 import { useEffect } from 'react';
 import { createContext, useState } from 'react';
 
-
 /**
  * Context to manage user-related data and actions.
  * @type {React.Context}
  */
 export let UserContext = createContext();
 
-export  default function UserContextProvider({children}){
+export default function UserContextProvider({ children }) {
+  const [userToken, setUserToken] = useState(null);
+  const [userName, setUserName] = useState(null);
 
-    const [userToken, setUserToken] = useState(null)
-
-    useEffect(()=>{
-        let token = localStorage.getItem('userToken')
-        if(token){
-            setUserToken(token)
-        }
+  useEffect(() => {
+    let token = localStorage.getItem('userToken');
+    let name = localStorage.getItem('userName');
+    if (token) {
+      setUserToken(token);
     }
-    ,[])
+    if (name) {
+      setUserName(name);
+    }
+  }, []);
 
-    return <UserContext.Provider value={{userToken, setUserToken }}>
-            {children}
-        </UserContext.Provider>
-   
+  return (
+    <UserContext.Provider value={{ userToken, setUserToken, userName, setUserName }}>
+      {children}
+    </UserContext.Provider>
+  );
 }

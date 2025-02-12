@@ -18,7 +18,7 @@ export default function MainSlider() {
   };
 
   return (
-    <div className="w-full px-4 sm:px-6 lg:px-8">
+    <div className="w-full px-4 sm:px-6 lg:px-8 mt-16">
       <div className="flex flex-col lg:flex-row gap-4">
         {/* Main Slider Section */}
         <div className="lg:w-3/4 w-full">

@@ -13,7 +13,7 @@ export default function Cart() {
 
   return (
     <>
-      <h2 className="text-3xl font-bold text-center my-8">Your Shopping Cart</h2>
+      <h2 className="text-3xl font-bold text-center my-8 text-main">Your Shopping Cart</h2>
   
       {cart ? (
         cart.data.products.length > 0 ? (
