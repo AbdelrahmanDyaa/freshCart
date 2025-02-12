@@ -1,108 +1,89 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
-import { useNavigate, Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { UserContext } from '../../Context/UserContext';
 
 export default function Login() {
   const [apiError, setApiError] = useState(null);
   const [loading, setLoading] = useState(false);
-  const { setUserToken } = useContext(UserContext);
+  const { setUserToken, setUserName } = useContext(UserContext);
   const navigate = useNavigate();
 
   async function login(values) {
     try {
       setLoading(true);
       const { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signin', values);
+
       localStorage.setItem('userToken', data.token);
+      localStorage.setItem('userName', data.user.name);
+
       setUserToken(data.token);
+      setUserName(data.user.name);
+
       navigate('/home');
     } catch (err) {
-      setApiError(err.response.data.message);
+      setApiError(err.response?.data?.message || "Login failed");
       setLoading(false);
     }
   }
-
-  const schema = Yup.object().shape({
-    email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
-  });
 
   const formik = useFormik({
     initialValues: {
       email: '',
       password: '',
     },
-    validationSchema: schema,
+    validationSchema: Yup.object({
+      email: Yup.string().email('Invalid email address').required('Email is required'),
+      password: Yup.string().min(6, 'Password must be at least 6 characters').required('Password is required'),
+    }),
     onSubmit: login,
   });
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="w-full max-w-md p-8 space-y-8 bg-white rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold text-center text-main">Login</h2>
-
-        {apiError && <div className="text-red-500 text-sm">{apiError}</div>}
-
-        <form onSubmit={formik.handleSubmit} className="space-y-6">
-          <div className="relative">
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 border border-gray-300 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center text-green-600 flex items-center justify-center">
+          <i className="fa-solid fa-user-lock mr-2"></i> Login
+        </h2>
+        {apiError && <p className="text-red-600 text-center">{apiError}</p>}
+        <form onSubmit={formik.handleSubmit}>
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Email</label>
             <input
               type="email"
               name="email"
-              id="email"
-              value={formik.values.email}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`block w-full px-4 py-2 text-sm text-gray-900 bg-gray-100 border ${formik.errors.email && formik.touched.email ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-main-600 focus:outline-none`}
-              placeholder="Enter Your Email"
+              value={formik.values.email}
             />
-            {formik.errors.email && formik.touched.email && (
-              <span className="text-red-500 text-xs">{formik.errors.email}</span>
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-red-600 text-sm">{formik.errors.email}</p>
             )}
           </div>
-
-          <div className="relative">
+          <div className="mb-4">
+            <label className="block text-sm font-medium">Password</label>
             <input
               type="password"
               name="password"
-              id="password"
-              value={formik.values.password}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className={`block w-full px-4 py-2 text-sm text-gray-900 bg-gray-100 border ${formik.errors.password && formik.touched.password ? 'border-red-500' : 'border-gray-300'} rounded-lg focus:ring-2 focus:ring-main-600 focus:outline-none`}
-              placeholder="Enter Your Password"
+              value={formik.values.password}
             />
-            {formik.errors.password && formik.touched.password && (
-              <span className="text-red-500 text-xs">{formik.errors.password}</span>
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-600 text-sm">{formik.errors.password}</p>
             )}
           </div>
-
           <button
             type="submit"
-            className={`w-full px-4 py-2 text-white bg-main-700 hover:bg-main-800 rounded-lg text-sm font-medium focus:outline-none focus:ring-2 focus:ring-main-600 focus:ring-offset-1 ${loading ? 'cursor-not-allowed opacity-50' : ''}`}
+            className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
             disabled={loading}
           >
-            {loading ? (
-              <span className="flex items-center justify-center">
-                <i className="fas fa-spinner fa-spin mr-2"></i>Loading...
-              </span>
-            ) : (
-              'Login'
-            )}
+            {loading ? 'Logging in...' : 'Login'}
           </button>
-
-          <p className="text-sm text-gray-500 text-center">
-            Don’t have an account?{' '}
-            <Link to="/" className="text-main-700 hover:underline">Register here</Link>
-          </p>
-
-          <p className="text-sm text-gray-500 text-center">
-            Forgot your password?{' '}
-            <Link to="/forgotpassword" className="text-main-700 hover:underline"  onClick={() => console.log('Navigating to forgot password')}>Reset here</Link>
-
-          </p>
         </form>
       </div>
     </div>

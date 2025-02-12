@@ -16,9 +16,9 @@ export default function WishlistPage() {
 
   if (!wishlist || wishlist.length === 0) {
     return (
-      <div className="flex items-center justify-center mt-8">
+      <div className="flex items-center justify-center min-h-screen">
         <div className="text-center">
-          <i className="fa-solid  fa-heart-circle-xmark fa-4x text-gray-400"></i>
+          <i className="fa-solid fa-heart-circle-xmark fa-4x text-red-400"></i>
           <h2 className="mt-4 text-xl font-semibold text-gray-700">
             Your wishlist is empty.
           </h2>
@@ -26,6 +26,7 @@ export default function WishlistPage() {
       </div>
     );
   }
+  
 
   return (
     <div className="container mx-auto px-4 py-8">

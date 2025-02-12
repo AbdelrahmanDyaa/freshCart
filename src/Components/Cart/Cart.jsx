@@ -2,6 +2,8 @@ import { useContext, useEffect } from "react";
 import { CartContext } from "../../Context/CartContext";
 import Loading from "../Loading/Loading";
 import { Link } from "react-router-dom";
+import emptyCartImg from "../../assets/images/emptycart.png"; // Adjust the path based on your structure
+
 
 export default function Cart() {
   const { cart, updateProductCountToCart, deleteProductCart, getProductToCart } =
@@ -128,12 +130,12 @@ export default function Cart() {
             </div>
           </div>
         ) : (
-          <div className="flex items-center justify-center mt-8">
-            <div className="text-center">
-              <i className="fa-solid fa-cart-arrow-down fa-4x"></i>
-              <h2 className="mt-4">You Have an Empty Cart</h2>
-            </div>
-          </div>
+          <div className="flex flex-col items-center justify-center mt-8 min-h-[500px]">
+          <img src={emptyCartImg} alt="Empty Cart" className="w-48 h-48 object-contain" />
+          <h2 className="mt-4 text-lg font-semibold text-gray-700">Your cart is empty</h2>
+        </div>
+        
+
         )
       ) : (
         <Loading />

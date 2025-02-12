@@ -1,5 +1,4 @@
-/* eslint-disable no-unused-vars */
-import React, { useState, useContext } from 'react';
+import { useState, useContext } from 'react';
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import axios from 'axios';
@@ -18,32 +17,22 @@ export default function Register() {
       const { data } = await axios.post('https://ecommerce.routemisr.com/api/v1/auth/signup', values);
       setLoading(false);
       localStorage.setItem('userToken', data.token);
-      localStorage.setItem('userName', data.user.name); // Store the user's name
+      localStorage.setItem('userName', data.user.name);
       setUserToken(data.token);
-      setUserName(data.user.name); // Set the user's name in context
+      setUserName(data.user.name);
       navigate('/home');
     } catch (err) {
-      setApiError(err.response.data.message);
+      setApiError(err.response?.data?.message || 'Registration failed');
       setLoading(false);
     }
   }
 
   const schema = Yup.object().shape({
-    name: Yup.string()
-      .required('Name is required')
-      .min(3, 'Name must be at least 3 characters')
-      .max(50, 'Name must be at most 50 characters'),
+    name: Yup.string().required('Name is required').min(3, 'Name must be at least 3 characters').max(50, 'Name must be at most 50 characters'),
     email: Yup.string().email('Invalid email').required('Email is required'),
-    password: Yup.string()
-      .min(8, 'Password must be at least 8 characters')
-      .required('Password is required')
-      .matches(/^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{8,}$/, 'Password must contain at least one uppercase letter, one lowercase letter, and one number'),
-    rePassword: Yup.string()
-      .oneOf([Yup.ref('password'), null], 'Passwords must match')
-      .required('Password is required'),
-    phone: Yup.string()
-      .matches(/^[0-9]+$/, 'Phone number must be a number')
-      .required('Phone is required'),
+    password: Yup.string().min(8, 'Password must be at least 8 characters').required('Password is required'),
+    rePassword: Yup.string().oneOf([Yup.ref('password'), null], 'Passwords must match').required('Password is required'),
+    phone: Yup.string().matches(/^[0-9]+$/, 'Phone number must be a number').required('Phone is required'),
   });
 
   const formik = useFormik({
@@ -59,122 +48,90 @@ export default function Register() {
   });
 
   return (
-    <div className="flex justify-center items-center h-screen bg-gray-100">
-      <div className="bg-white p-8 shadow-lg rounded-lg w-full max-w-md">
-        <h2 className="text-2xl font-bold text-center text-main mb-6">Register</h2>
-        {apiError && <div className="text-red-500 text-sm mb-4">{apiError}</div>}
+    <div className="flex items-center justify-center min-h-screen">
+      <div className="w-full max-w-md p-6 border border-gray-300 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4 text-center text-green-600 flex items-center justify-center">
+          <i className="fa-solid fa-user-plus mr-2"></i> Register
+        </h2>
+        {apiError && <p className="text-red-600 text-center">{apiError}</p>}
         <form onSubmit={formik.handleSubmit}>
-          {/* Name Field */}
           <div className="mb-4">
-            <label htmlFor="name" className="block text-sm font-medium text-gray-700">Name</label>
+            <label className="block text-sm font-medium">Name</label>
             <input
               type="text"
               name="name"
-              id="name"
-              value={formik.values.name}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-main-500 focus:border-main-500"
+              value={formik.values.name}
             />
-            {formik.errors.name && formik.touched.name && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.name}</div>
+            {formik.touched.name && formik.errors.name && (
+              <p className="text-red-600 text-sm">{formik.errors.name}</p>
             )}
           </div>
-
-          {/* Email Field */}
           <div className="mb-4">
-            <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
+            <label className="block text-sm font-medium">Email</label>
             <input
               type="email"
               name="email"
-              id="email"
-              value={formik.values.email}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-main-500 focus:border-main-500"
+              value={formik.values.email}
             />
-            {formik.errors.email && formik.touched.email && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.email}</div>
+            {formik.touched.email && formik.errors.email && (
+              <p className="text-red-600 text-sm">{formik.errors.email}</p>
             )}
           </div>
-
-          {/* Password Field */}
           <div className="mb-4">
-            <label htmlFor="password" className="block text-sm font-medium text-gray-700">Password</label>
+            <label className="block text-sm font-medium">Password</label>
             <input
               type="password"
               name="password"
-              id="password"
-              value={formik.values.password}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-main-500 focus:border-main-500"
+              value={formik.values.password}
             />
-            {formik.errors.password && formik.touched.password && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.password}</div>
+            {formik.touched.password && formik.errors.password && (
+              <p className="text-red-600 text-sm">{formik.errors.password}</p>
             )}
           </div>
-
-          {/* Re-enter Password Field */}
           <div className="mb-4">
-            <label htmlFor="rePassword" className="block text-sm font-medium text-gray-700">Re-enter Password</label>
+            <label className="block text-sm font-medium">Re-enter Password</label>
             <input
               type="password"
               name="rePassword"
-              id="rePassword"
-              value={formik.values.rePassword}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-main-500 focus:border-main-500"
+              value={formik.values.rePassword}
             />
-            {formik.errors.rePassword && formik.touched.rePassword && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.rePassword}</div>
+            {formik.touched.rePassword && formik.errors.rePassword && (
+              <p className="text-red-600 text-sm">{formik.errors.rePassword}</p>
             )}
           </div>
-
-          {/* Phone Field */}
           <div className="mb-4">
-            <label htmlFor="phone" className="block text-sm font-medium text-gray-700">Phone</label>
+            <label className="block text-sm font-medium">Phone</label>
             <input
               type="tel"
               name="phone"
-              id="phone"
-              value={formik.values.phone}
+              className="w-full px-3 py-2 border rounded-md"
               onChange={formik.handleChange}
               onBlur={formik.handleBlur}
-              className="mt-1 block w-full px-4 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-main-500 focus:border-main-500"
+              value={formik.values.phone}
             />
-            {formik.errors.phone && formik.touched.phone && (
-              <div className="text-red-500 text-sm mt-1">{formik.errors.phone}</div>
+            {formik.touched.phone && formik.errors.phone && (
+              <p className="text-red-600 text-sm">{formik.errors.phone}</p>
             )}
           </div>
-
-          {/* Submit Button */}
-          <div className="flex items-center justify-between">
-            {loading ? (
-              <button
-                type="button"
-                className="bg-main-600 text-white font-medium rounded-lg text-sm px-5 py-2.5 flex items-center justify-center"
-              >
-                <i className="fas fa-spinner fa-spin mr-2"></i>
-                Loading...
-              </button>
-            ) : (
-              <button
-                type="submit"
-                className="bg-main-600 hover:bg-main-700 text-white font-medium rounded-lg text-sm px-5 py-2.5"
-              >
-                Register
-              </button>
-            )}
-            <button
-              type="button"
-              onClick={() => navigate('/login')}
-              className="text-main-600 hover:underline text-sm"
-            >
-              Already have an account? Login
-            </button>
-          </div>
+          <button
+            type="submit"
+            className="w-full bg-green-600 text-white py-2 rounded-md hover:bg-green-700"
+            disabled={loading}
+          >
+            {loading ? 'Registering...' : 'Register'}
+          </button>
         </form>
       </div>
     </div>

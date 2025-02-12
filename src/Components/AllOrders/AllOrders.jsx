@@ -1,11 +1,12 @@
 import { useEffect, useState } from "react";
 import jwtDecode from "jwt-decode";
 import axios from "axios";
-import { useNavigate } from "react-router-dom"; // Import useNavigate
+import { useNavigate } from "react-router-dom";
+import noOrder from "../../assets/images/Empty1.svg";
 
 export default function Allorders() {
   const [userOrders, setuserOrders] = useState([]);
-  const navigate = useNavigate(); // Initialize useNavigate
+  const navigate = useNavigate();
 
   useEffect(() => {
     const token = localStorage.getItem("userToken");
@@ -34,29 +35,32 @@ export default function Allorders() {
   }
 
   const handleGoHome = () => {
-    navigate('/home'); // Navigate to the home page
+    navigate('/home');
   };
 
   return (
     <div className="container my-5">
       {userOrders.length === 0 ? (
-        <div className="flex items-center justify-center mt-8">
-          <div className="text-center">
-            <i className="fa-solid fa-cubes fa-4x"></i>
-            <h2 className="mt-4">
-              It seems you don’t have any orders yet.
-            </h2>
-            <button
-              onClick={handleGoHome}
-              className="mt-6 bg-main text-white font-semibold py-2 px-4 rounded-md shadow hover:bg-opacity-80 transition duration-200"
-            >
-              Go to Home
-            </button>
-          </div>
+        <div className="flex flex-col items-center justify-center mt-8 min-h-[600px]">
+          {/* SVG Image for No Orders */}
+          <img
+            src={noOrder}
+            alt="No Orders Yet"
+            className="w-48 h-48 mb-4"
+          />
+          <h2 className="mt-4 text-xl font-semibold text-gray-700">
+            It seems you don’t have any orders yet.
+          </h2>
+          <button
+            onClick={handleGoHome}
+            className="mt-6 bg-green-600 text-white font-semibold py-2 px-6 rounded-md shadow hover:bg-green-700 transition duration-200"
+          >
+            Go to Home
+          </button>
         </div>
       ) : (
         <>
-          <h2 className="text-3xl font-bold text-center mt-8">Your Orders</h2>
+          <h2 className="text-3xl font-bold text-center mt-8 text-main">Your Orders</h2>
           <div className="relative overflow-x-auto shadow-md sm:rounded-lg mt-8">
             <div className="space-y-6">
               {userOrders.map((order, idx) => (

@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
+import emptyCat from '../../assets/images/nocat.png';
 
 
 
@@ -30,15 +31,10 @@ export default function CategoryDetails() {
   }, [id]);
 
   if (!category) {
-    return <div className="flex items-center justify-center mt-8">
-    <div className="text-center">
-      <i className="fa-solid fa-table fa-4x"></i>
-      <h2 className="mt-4">
-       No category found.
-      </h2>
-     
+    return <div className="flex flex-col items-center justify-center mt-16">
+      <img src={emptyCat} alt="Empty Cart" className="w-48 h-48 object-contain" />
+      <h2 className="mt-4 text-lg font-semibold text-gray-700">No Category Found</h2>
     </div>
-  </div>
   }
 
   return <div className="container mx-auto px-4 py-8">
