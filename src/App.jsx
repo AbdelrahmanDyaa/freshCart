@@ -58,15 +58,15 @@ const query = new QueryClient();
 function App() {
   return (
     <QueryClientProvider client={query}>
+      <UserContextProvider>
       <WishlistContextProvider>
         <CartContextProvider>
-          <UserContextProvider> {/* Ensure this loads first */}
             <RouterProvider router={routers} />
             <Toaster />
             <ReactQueryDevtools />
-          </UserContextProvider>
         </CartContextProvider>
       </WishlistContextProvider>
+      </UserContextProvider>
     </QueryClientProvider>
   );
 }
